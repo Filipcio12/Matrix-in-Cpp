@@ -1,9 +1,13 @@
 #pragma once
+#include <cstdlib>
 
 class Matrix {
     double** arr;
+    size_t m;
+    size_t n;
 
     public:
         Matrix();
-        Matrix(unsigned int m, unsigned int n);
+        Matrix(size_t m, size_t n);
+        ~Matrix();
 };
