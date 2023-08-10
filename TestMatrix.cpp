@@ -8,6 +8,6 @@ int main()
     a(0, 1) = 2;
     a(1, 0) = 3;
     a(1, 1) = 4;
-    std::cout << a(0, 0);
+    std::cout << a;
     return 0;
 }

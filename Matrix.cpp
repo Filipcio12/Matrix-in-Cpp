@@ -1,5 +1,4 @@
 #include "Matrix.h"
-#include <iostream>
 #include <exception>
 
 Matrix::Matrix()
@@ -14,7 +13,7 @@ Matrix::Matrix(size_t m, size_t n)
     this->m = m;
     this->n = n;
     arr = new double*[m];
-    
+
     if (!arr) {
         throw std::bad_alloc();
     }
@@ -57,4 +56,28 @@ double& Matrix::operator()(size_t m, size_t n)
     else {
         throw std::invalid_argument("There's no such element in the matrix.");
     }
+}
+
+size_t Matrix::getNumOfRows() const
+{
+    return m;
+}
+
+size_t Matrix::getNumOfColumns() const
+{
+    return n;
+}
+
+std::ostream& operator<<(std::ostream& os, const Matrix& matrix)
+{   
+    size_t m = matrix.getNumOfRows();
+    size_t n = matrix.getNumOfColumns();
+
+    for (size_t i = 0; i < m; ++i) {
+        for (size_t j = 0; j < n; ++j) {
+            os << matrix(i, j) << " ";
+        }
+        os << "\n";
+    }
+    return os;
 }
