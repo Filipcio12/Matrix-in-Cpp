@@ -32,6 +32,29 @@ Matrix::Matrix(size_t m, size_t n)
     }
 }
 
+Matrix::Matrix(const Matrix& matrix)
+{   
+    m = matrix.getNumOfRows();
+    n = matrix.getNumOfColumns();
+    arr = new double*[m];
+
+    if (!arr) {
+        throw std::bad_alloc();
+    }
+    for (size_t i = 0; i < m; ++i) {
+        arr[i] = new double[n];
+        if (!arr[i]) {
+            throw std::bad_alloc();
+        }
+    }
+    
+    for (size_t i = 0; i < m; ++i) {
+        for (size_t j = 0; j < n; ++j) {
+            arr[i][j] = matrix(i, j);
+        }
+    }
+}
+
 Matrix::~Matrix()
 {
     for (unsigned int i = 0; i < m; ++i) {
