@@ -19,4 +19,5 @@ class Matrix {
         friend std::ostream& operator<<(std::ostream& os, const Matrix& m);
         Matrix& operator=(const Matrix& matrix);
         Matrix operator+(const Matrix& matrix) const;
+        Matrix operator-(const Matrix& matrix) const;
 };

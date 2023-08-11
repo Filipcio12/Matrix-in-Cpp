@@ -148,3 +148,17 @@ Matrix Matrix::operator+(const Matrix& matrix) const
     }
     return sum;
 }
+
+Matrix Matrix::operator-(const Matrix& matrix) const
+{
+    if (m != matrix.getNumOfRows() || n != matrix.getNumOfColumns()) {
+        throw std::invalid_argument("Matrices have to be the same size to add.");
+    }
+    Matrix diff = *this;
+    for (size_t i = 0; i < m; ++i) {
+        for (size_t j = 0; j < n; ++j) {
+            diff(i, j) -= matrix(i, j);
+        }
+    }
+    return diff;
+}
