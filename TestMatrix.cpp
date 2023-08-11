@@ -9,6 +9,7 @@ int main()
     a(1, 0) = 1;
     a(1, 1) = 1;
     Matrix b = a;
-    std::cout << a + b << b - a;
+    a -= b;
+    std::cout << a << a + b << b - a;
     return 0;
 }
