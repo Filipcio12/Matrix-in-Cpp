@@ -22,4 +22,5 @@ class Matrix {
         Matrix& operator+=(const Matrix& matrix);
         Matrix operator-(const Matrix& matrix) const;
         Matrix& operator-=(const Matrix& matrix);
+        Matrix operator*(const Matrix& matrix);
 };

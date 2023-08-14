@@ -188,3 +188,25 @@ Matrix& Matrix::operator-=(const Matrix& matrix)
     }
     return *this;
 }
+
+Matrix Matrix::operator*(const Matrix& matrix)
+{
+    if (n != matrix.getNumOfRows()) {
+        throw std::invalid_argument("Matrices can be multiplied only if \
+        the number of columns of the first \
+        is equal to the number of rows of the second.");
+    }
+    size_t p = matrix.getNumOfColumns();
+    Matrix product(m, p);
+
+    for (size_t i = 0; i < m; ++i) {
+        for (size_t j = 0; j < p; ++j) {
+            double element = 0;
+            for (size_t k = 0; k < n; ++k) {
+                element += arr[i][k] * matrix(k, j);
+            }
+            product(i, j) = element;
+        }
+    }
+    return product;
+}
