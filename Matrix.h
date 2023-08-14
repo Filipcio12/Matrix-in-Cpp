@@ -24,4 +24,5 @@ class Matrix {
         Matrix& operator-=(const Matrix& matrix);
         Matrix operator*(const Matrix& matrix);
         Matrix& operator*=(const Matrix& matrix);
+        friend std::istream& operator>>(std::istream& is, Matrix& m);
 };

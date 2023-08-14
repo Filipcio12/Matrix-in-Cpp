@@ -216,3 +216,8 @@ Matrix& Matrix::operator*=(const Matrix& matrix)
     *this = *this * matrix;
     return *this;
 }
+
+std::istream& operator>>(std::istream& is, Matrix& matrix)
+{
+    return is;
+}

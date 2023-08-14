@@ -8,6 +8,7 @@ int main()
     data.open("data.txt", std::ios::in);
     std::string word;
     data >> word;
+    std::stod(word);
     std::cout << word;
     data.close();
     /*Matrix a(2, 3);
