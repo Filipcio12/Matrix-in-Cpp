@@ -223,12 +223,15 @@ std::istream& operator>>(std::istream& is, Matrix& matrix)
     std::string* text = new std::string[textSize];
     std::string line = "";
 
-    getline(is, line);
-    while (!is.eof() && line != "\n") {
+    while (!is.eof()) {
+        getline(is, line);
+        if (line == "") {
+            break;
+        }
         if (numOfRows == textSize) {
             size_t newTextSize = (textSize + 1) * 2;
             std::string* newText = new std::string[newTextSize];
-            for (int i = 0; i < textSize; ++i) {
+            for (size_t i = 0; i < textSize; ++i) {
                 newText[i] = text[i];
             }
             delete[] text;
@@ -236,10 +239,8 @@ std::istream& operator>>(std::istream& is, Matrix& matrix)
             textSize = newTextSize;
         }
         text[numOfRows++] = line;
-        getline(is, line);
     }
 
-    //Find the number of columns;
     line = text[0];
     size_t elementSize = 0;
     for (char c : line) {
@@ -270,13 +271,22 @@ std::istream& operator>>(std::istream& is, Matrix& matrix)
                     throw std::invalid_argument("Matrix has to have the same number \
                                                 of columns per each row");
                 }
-                // create element;
                 std::string element = line.substr(i - elementSize, elementSize);
                 double num = std::stod(element);
-                input(row, column++);
+                input(row, column++) = num;
+                elementSize = 0;
             }
         }
-    }
+        if (column == numOfColumns) {
+                    throw std::invalid_argument("Matrix has to have the same number \
+                                                of columns per each row");
+                }
+                std::string element = line.substr(line.size() - elementSize, elementSize);
+                double num = std::stod(element);
+                input(row, column++) = num;
+                elementSize = 0;
+            }
     matrix = input;
     return is;
 }
+    

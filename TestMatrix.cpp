@@ -4,13 +4,13 @@
 
 int main()
 {
+    Matrix a, b;
     std::fstream data;
     data.open("data.txt", std::ios::in);
-    std::string word;
-    data >> word;
-    std::stod(word);
-    std::cout << word;
+    data >> a;
+    data >> b;
     data.close();
+    std::cout << a << "\n" << b << "\n" << a * b;
     /*Matrix a(2, 3);
     Matrix b(3, 2);
 
