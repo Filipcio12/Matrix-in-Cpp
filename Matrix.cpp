@@ -218,6 +218,65 @@ Matrix& Matrix::operator*=(const Matrix& matrix)
 }
 
 std::istream& operator>>(std::istream& is, Matrix& matrix)
-{
+{  
+    size_t numOfRows = 0, numOfColumns = 0, textSize = 10;
+    std::string* text = new std::string[textSize];
+    std::string line = "";
+
+    getline(is, line);
+    while (!is.eof() && line != "\n") {
+        if (numOfRows == textSize) {
+            size_t newTextSize = (textSize + 1) * 2;
+            std::string* newText = new std::string[newTextSize];
+            for (int i = 0; i < textSize; ++i) {
+                newText[i] = text[i];
+            }
+            delete[] text;
+            text = newText;
+            textSize = newTextSize;
+        }
+        text[numOfRows++] = line;
+        getline(is, line);
+    }
+
+    //Find the number of columns;
+    line = text[0];
+    size_t elementSize = 0;
+    for (char c : line) {
+        if (!isblank(c)) {
+            elementSize++;
+        }
+        else if (elementSize > 0) {
+            elementSize = 0;
+            numOfColumns++;
+        }
+    }
+    if (elementSize > 0) {
+        elementSize = 0;
+        numOfColumns++;
+    }
+
+    Matrix input(numOfRows, numOfColumns);
+    for (size_t row = 0; row < numOfRows; ++row) {
+        line = text[row];
+        elementSize = 0;
+        size_t column = 0;
+        for (size_t i = 0; i < line.size(); ++i) {
+            if (!isblank(line[i])) {
+                elementSize++;
+            }
+            else if (elementSize > 0) {
+                if (column == numOfColumns) {
+                    throw std::invalid_argument("Matrix has to have the same number \
+                                                of columns per each row");
+                }
+                // create element;
+                std::string element = line.substr(i - elementSize, elementSize);
+                double num = std::stod(element);
+                input(row, column++);
+            }
+        }
+    }
+    matrix = input;
     return is;
 }
