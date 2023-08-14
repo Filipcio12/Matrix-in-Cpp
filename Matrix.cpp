@@ -98,7 +98,7 @@ std::ostream& operator<<(std::ostream& os, const Matrix& matrix)
 
     for (size_t i = 0; i < m; ++i) {
         for (size_t j = 0; j < n; ++j) {
-            os << matrix(i, j) << " ";
+            os << matrix(i, j) << "\t";
         }
         os << "\n";
     }
@@ -209,4 +209,10 @@ Matrix Matrix::operator*(const Matrix& matrix)
         }
     }
     return product;
+}
+
+Matrix& Matrix::operator*=(const Matrix& matrix)
+{
+    *this = *this * matrix;
+    return *this;
 }
