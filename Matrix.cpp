@@ -192,9 +192,10 @@ Matrix& Matrix::operator-=(const Matrix& matrix)
 Matrix Matrix::operator*(const Matrix& matrix)
 {
     if (n != matrix.getNumOfRows()) {
-        throw std::invalid_argument("Matrices can be multiplied only if \
-        the number of columns of the first \
-        is equal to the number of rows of the second.");
+        std::string err = "Matrices can be multiplied only if "
+                          "the number of columns of the first "
+                          "is equal to the number of rows of the second.";
+        throw std::invalid_argument(err);
     }
     size_t p = matrix.getNumOfColumns();
     Matrix product(m, p);
@@ -268,8 +269,9 @@ std::istream& operator>>(std::istream& is, Matrix& matrix)
             }
             else if (elementSize > 0) {
                 if (column == numOfColumns) {
-                    throw std::invalid_argument("Matrix has to have the same number \
-                                                of columns per each row");
+                    std::string err = "Matrix has to have the same number "
+                                      "of columns per each row.";
+                    throw std::invalid_argument(err);
                 }
                 std::string element = line.substr(i - elementSize, elementSize);
                 double num = std::stod(element);
@@ -278,8 +280,9 @@ std::istream& operator>>(std::istream& is, Matrix& matrix)
             }
         }
         if (column == numOfColumns) {
-                    throw std::invalid_argument("Matrix has to have the same number \
-                                                of columns per each row");
+                    std::string err = "Matrix has to have the same number "
+                                      "of columns per each row.";
+                    throw std::invalid_argument(err);
                 }
                 std::string element = line.substr(line.size() - elementSize, elementSize);
                 double num = std::stod(element);
