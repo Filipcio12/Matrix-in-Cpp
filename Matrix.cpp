@@ -224,6 +224,7 @@ std::istream& operator>>(std::istream& is, Matrix& matrix)
     std::string* text = new std::string[textSize];
     std::string line = "";
 
+    // Read one matrix into text
     while (!is.eof()) {
         getline(is, line);
         if (line == "") {
@@ -242,6 +243,7 @@ std::istream& operator>>(std::istream& is, Matrix& matrix)
         text[numOfRows++] = line;
     }
 
+    // Count the number of columns in the first row
     line = text[0];
     size_t elementSize = 0;
     for (char c : line) {
