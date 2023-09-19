@@ -218,9 +218,8 @@ Matrix& Matrix::operator*=(const Matrix& matrix)
     return *this;
 }
 
-void readMatrix(std::istream& is, std::string* text,
-                        size_t& numOfRows, size_t& numOfColumns,
-                        size_t& textSize, std::string& line)
+void readText(std::istream& is, std::string* text,
+                size_t& numOfRows, size_t& textSize, std::string& line)
 {
     while (!is.eof()) {
         getline(is, line);
@@ -241,17 +240,9 @@ void readMatrix(std::istream& is, std::string* text,
     }
 }
 
-std::istream& operator>>(std::istream& is, Matrix& matrix)
-{  
-    size_t numOfRows = 0, numOfColumns = 0, textSize = 10;
-    std::string* text = new std::string[textSize];
-    std::string line = "";
-
-    // Read one matrix into text
-    readMatrix(is, text, numOfRows, numOfColumns, textSize, line);
-
-    // Count the number of columns in the first row
-    line = text[0];
+size_t countNumOfColums(std::string line)
+{
+    size_t numOfColumns = 0;
     size_t elementSize = 0;
     for (char c : line) {
         if (!isblank(c)) {
@@ -266,11 +257,25 @@ std::istream& operator>>(std::istream& is, Matrix& matrix)
         elementSize = 0;
         numOfColumns++;
     }
+    return numOfColumns;
+}
+
+std::istream& operator>>(std::istream& is, Matrix& matrix)
+{  
+    size_t numOfRows = 0, numOfColumns = 0, textSize = 10;
+    std::string* text = new std::string[textSize];
+    std::string line = "";
+
+    readText(is, text, numOfRows, textSize, line);
+
+    // Count the number of columns in the first row
+    line = text[0];
+    numOfColumns = countNumOfColums(line);
 
     Matrix input(numOfRows, numOfColumns);
     for (size_t row = 0; row < numOfRows; ++row) {
         line = text[row];
-        elementSize = 0;
+        size_t elementSize = 0;
         size_t column = 0;
         for (size_t i = 0; i < line.size(); ++i) {
             if (!isblank(line[i])) {
