@@ -241,7 +241,7 @@ void readText(std::istream& is, std::string* text,
     }
 }
 
-size_t countNumOfColums(std::string line)
+size_t countNumOfColumns(std::string line)
 {
     size_t numOfColumns = 0;
     size_t elementSize = 0;
@@ -261,46 +261,53 @@ size_t countNumOfColums(std::string line)
     return numOfColumns;
 }
 
+std::string* seperateElementsInAString(std::string line, size_t numOfElements)
+{
+    std::string* output = new std::string[numOfElements];
+    size_t elementSize = 0;
+    size_t i, j = 0;
+    for (i = 0; i < line.size(); ++i) {
+        if (!isblank(line[i])) {
+            elementSize++;
+        }
+        else if (elementSize > 0) {
+            std::string element = line.substr(i - elementSize, elementSize);
+            output[j++] = element;
+            elementSize = 0;
+        }
+    }
+    if (elementSize > 0) {
+        std::string element = line.substr(i - elementSize, elementSize);
+        output[j++] = element;
+        elementSize = 0;
+    }
+    return output;
+}
+
 std::istream& operator>>(std::istream& is, Matrix& matrix)
 {  
     size_t numOfRows = 0, numOfColumns = 0, textSize = 10;
     std::string* text = new std::string[textSize];
 
     readText(is, text, numOfRows, textSize);
-    numOfColumns = countNumOfColums(text[0]);
+    numOfColumns = countNumOfColumns(text[0]);
 
     Matrix input(numOfRows, numOfColumns);
-    
-    for (size_t row = 0; row < numOfRows; ++row) {
-        std::string line = text[row];
-        size_t elementSize = 0;
-        size_t column = 0;
-        for (size_t i = 0; i < line.size(); ++i) {
-            if (!isblank(line[i])) {
-                elementSize++;
-            }
-            else if (elementSize > 0) {
-                if (column == numOfColumns) {
-                    std::string err = "Matrix has to have the same number "
-                                      "of columns per each row.";
-                    throw std::invalid_argument(err);
-                }
-                std::string element = line.substr(i - elementSize, elementSize);
-                double num = std::stod(element);
-                input(row, column++) = num;
-                elementSize = 0;
-            }
+
+    for (size_t i = 0; i < numOfRows; ++i) {
+        if (numOfColumns != countNumOfColumns(text[i])) {
+            std::string err = "Matrix has to have the same number "
+                                "of columns per each row.";
+            throw std::invalid_argument(err);
         }
-        if (column == numOfColumns) {
-                    std::string err = "Matrix has to have the same number "
-                                      "of columns per each row.";
-                    throw std::invalid_argument(err);
-                }
-                std::string element = line.substr(line.size() - elementSize, elementSize);
-                double num = std::stod(element);
-                input(row, column++) = num;
-                elementSize = 0;
-            }
+
+        std::string* elements = seperateElementsInAString(text[i], numOfColumns);
+        
+        for (size_t j = 0; j < numOfColumns; ++j) {
+            input(i, j) = std::stod(elements[j]);
+        }
+    }
+    
     matrix = input;
     return is;
 }

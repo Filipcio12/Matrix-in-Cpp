@@ -27,5 +27,7 @@ class Matrix {
         friend std::istream& operator>>(std::istream& is, Matrix& m);
         friend void readText(std::istream& is, std::string* text, 
                                 size_t& numOfRows, size_t& textSize);
-        friend size_t countNumOfColums(std::string line);
+        friend size_t countNumOfColumns(std::string line);
 };
+
+std::string* seperateElementsInAString(std::string line, size_t numOfElements);
