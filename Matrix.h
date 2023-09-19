@@ -26,6 +26,6 @@ class Matrix {
         Matrix& operator*=(const Matrix& matrix);
         friend std::istream& operator>>(std::istream& is, Matrix& m);
         friend void readText(std::istream& is, std::string* text, 
-                                size_t& numOfRows, size_t& textSize, std::string& line);
+                                size_t& numOfRows, size_t& textSize);
         friend size_t countNumOfColums(std::string line);
 };
