@@ -306,9 +306,12 @@ std::istream& operator>>(std::istream& is, Matrix& matrix)
         for (size_t j = 0; j < numOfColumns; ++j) {
             input(i, j) = std::stod(elements[j]);
         }
+
+        delete[] elements;
     }
     
     matrix = input;
+    delete[] text;
     return is;
 }
     
