@@ -14,14 +14,8 @@ Matrix::Matrix(size_t m, size_t n)
     this->n = n;
     arr = new double*[m];
 
-    if (!arr) {
-        throw std::bad_alloc();
-    }
     for (size_t i = 0; i < m; ++i) {
         arr[i] = new double[n];
-        if (!arr[i]) {
-            throw std::bad_alloc();
-        }
     }
 
     //Initialize array to zeroes
@@ -38,14 +32,8 @@ Matrix::Matrix(const Matrix& matrix)
     n = matrix.getNumOfColumns();
     arr = new double*[m];
 
-    if (!arr) {
-        throw std::bad_alloc();
-    }
     for (size_t i = 0; i < m; ++i) {
         arr[i] = new double[n];
-        if (!arr[i]) {
-            throw std::bad_alloc();
-        }
     }
     
     for (size_t i = 0; i < m; ++i) {
@@ -116,14 +104,8 @@ Matrix& Matrix::operator=(const Matrix& matrix)
     n = matrix.getNumOfColumns();
     arr = new double*[m];
 
-    if (!arr) {
-        throw std::bad_alloc();
-    }
     for (size_t i = 0; i < m; ++i) {
         arr[i] = new double[n];
-        if (!arr[i]) {
-            throw std::bad_alloc();
-        }
     }
     
     for (size_t i = 0; i < m; ++i) {
