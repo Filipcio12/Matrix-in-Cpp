@@ -35,46 +35,36 @@ class Matrix {
 class InvalidMatrixElement : public std::exception {
     public:
         const char* what() {
-            std::string message = "There is no such element in the matrix.";
-            const char* msg = message.c_str();
-            return msg;
+            return "There is no such element in the matrix.";
         }
 };
 
 class InvalidMatrixAddition : public std::exception {
     public:
         const char* what() {
-            std::string message = "Matrices have to be the same size to add.";
-            const char* msg = message.c_str();
-            return msg;
+            return "Matrices have to be the same size to add.";
         }
 };
 
 class InvalidMatrixSubtraction: public std::exception {
     public:
         const char* what() {
-            std::string message = "Matrices have to be the same size to subtract.";
-            const char* msg = message.c_str();
-            return msg;
+            return "Matrices have to be the same size to subtract.";
         }
 };
 
 class InvalidMatrixMultiplication: public std::exception {
     public:
         const char* what() {
-            std::string message = "Matrices can be multiplied only if "
-                                  "the number of columns of the first "
-                                  "is equal to the number of rows of the second.";
-            const char* msg = message.c_str();
-            return msg;
+            return "Matrices can be multiplied only if "
+                    "the number of columns of the first "
+                    "is equal to the number of rows of the second.";
         }
 };
 
 class InvalidMatrixInput: public std::exception {
     public:
         const char* what() {
-            std::string message = "Matrix has to have the same number of columns per each row.";
-            const char* msg = message.c_str();
-            return msg;
+            return "Matrix has to have the same number of columns per each row.";
         }
 };
