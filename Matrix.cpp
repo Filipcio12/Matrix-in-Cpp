@@ -56,7 +56,7 @@ double Matrix::operator()(size_t m, size_t n) const
     if (this->m >= m && this->n >= n)
         return arr[m][n];
     else {
-        throw std::invalid_argument("There's no such element in the matrix.");
+        throw InvalidMatrixElement();
     }
 }
 
@@ -65,7 +65,7 @@ double& Matrix::operator()(size_t m, size_t n)
     if (this->m >= m && this->n >= n)
         return arr[m][n];
     else {
-        throw std::invalid_argument("There's no such element in the matrix.");
+        throw InvalidMatrixElement();
     }
 }
 
@@ -120,7 +120,7 @@ Matrix& Matrix::operator=(const Matrix& matrix)
 Matrix Matrix::operator+(const Matrix& matrix) const
 {
     if (m != matrix.getNumOfRows() || n != matrix.getNumOfColumns()) {
-        throw std::invalid_argument("Matrices have to be the same size to add.");
+        throw InvalidMatrixAddition();
     }
     Matrix sum = *this;
     for (size_t i = 0; i < m; ++i) {
@@ -134,7 +134,7 @@ Matrix Matrix::operator+(const Matrix& matrix) const
 Matrix& Matrix::operator+=(const Matrix& matrix)
 {
     if (m != matrix.getNumOfRows() || n != matrix.getNumOfColumns()) {
-        throw std::invalid_argument("Matrices have to be the same size to add.");
+        throw InvalidMatrixAddition();
     }
     for (size_t i = 0; i < m; ++i) {
         for (size_t j = 0; j < n; ++j) {
@@ -147,7 +147,7 @@ Matrix& Matrix::operator+=(const Matrix& matrix)
 Matrix Matrix::operator-(const Matrix& matrix) const
 {
     if (m != matrix.getNumOfRows() || n != matrix.getNumOfColumns()) {
-        throw std::invalid_argument("Matrices have to be the same size to add.");
+        throw InvalidMatrixSubtraction();
     }
     Matrix diff = *this;
     for (size_t i = 0; i < m; ++i) {
@@ -161,7 +161,7 @@ Matrix Matrix::operator-(const Matrix& matrix) const
 Matrix& Matrix::operator-=(const Matrix& matrix)
 {
     if (m != matrix.getNumOfRows() || n != matrix.getNumOfColumns()) {
-        throw std::invalid_argument("Matrices have to be the same size to add.");
+        throw InvalidMatrixSubtraction();
     }
     for (size_t i = 0; i < m; ++i) {
         for (size_t j = 0; j < n; ++j) {
@@ -174,10 +174,7 @@ Matrix& Matrix::operator-=(const Matrix& matrix)
 Matrix Matrix::operator*(const Matrix& matrix)
 {
     if (n != matrix.getNumOfRows()) {
-        std::string err = "Matrices can be multiplied only if "
-                          "the number of columns of the first "
-                          "is equal to the number of rows of the second.";
-        throw std::invalid_argument(err);
+        throw InvalidMatrixMultiplication();
     }
     size_t p = matrix.getNumOfColumns();
     Matrix product(m, p);
@@ -278,9 +275,7 @@ std::istream& operator>>(std::istream& is, Matrix& matrix)
 
     for (size_t i = 0; i < numOfRows; ++i) {
         if (numOfColumns != countNumOfColumns(text[i])) {
-            std::string err = "Matrix has to have the same number "
-                                "of columns per each row.";
-            throw std::invalid_argument(err);
+            throw InvalidMatrixInput();
         }
 
         std::string* elements = seperateElementsInAString(text[i], numOfColumns);
